@@ -1,5 +1,7 @@
 package com.caiolima.apientrega.api.controller;
 
+import com.caiolima.apientrega.domain.service.CadastroClienteService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +16,11 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping ("/clientes")
+@AllArgsConstructor
 public class ClienteController {
 
-    @Autowired
     private ClienteRepository repository;
+    private CadastroClienteService service;
 
     @GetMapping
     public List<Cliente> consultarTodos(){
@@ -34,14 +37,14 @@ public class ClienteController {
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED) // especificar qual o status retornar para a requisição
     public Cliente cadastrar(@Valid @RequestBody Cliente cliente){
-        return repository.save(cliente);
+        return service.salvar(cliente);
     }
 
     @PutMapping ("/{id}")
     public ResponseEntity<Cliente> atualizar (@Valid @PathVariable Long id, @RequestBody Cliente cliente){
         if (repository.existsById(id)){
             cliente.setId(id);
-            return ResponseEntity.ok(repository.save(cliente));
+            return ResponseEntity.ok(service.salvar(cliente));
         }
 
         return ResponseEntity.notFound().build();
@@ -51,7 +54,7 @@ public class ClienteController {
     public ResponseEntity<Void> deletar(@PathVariable Long id){
 
         if (repository.existsById(id)){
-            repository.deleteById(id);
+            service.deletar(id);
             return ResponseEntity.noContent().build();
         }
 

@@ -1,5 +1,6 @@
 package com.caiolima.apientrega.api.exceptionhandler;
 
+import com.caiolima.apientrega.domain.exception.NegocioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -36,5 +38,18 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler { //trat
         Erro erro = new Erro(status.value(), LocalDateTime.now(),"Um ou mais campos estão inválidos", camposIncorretos);
 
         return handleExceptionInternal(exception, erro, headers, status, request);
+    }
+
+    @ExceptionHandler (NegocioException.class) //anotação especificando que esse é o método para lidar com NegocioException em qualquer parte da aplicação
+    public ResponseEntity<Object> handleNegocio (NegocioException exception, WebRequest request){
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        Erro erro = new Erro();
+        erro.setStatus(status.value());
+        erro.setDataHora(LocalDateTime.now());
+        erro.setTitulo(exception.getMessage());
+
+        return handleExceptionInternal(exception, erro, new HttpHeaders(), status, request);
     }
 }

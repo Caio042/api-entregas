@@ -1,5 +1,6 @@
 package com.caiolima.apientrega.api.exceptionhandler;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude (JsonInclude.Include.NON_NULL) // só irá no json campos não nulos
 public class Erro {
 
     private Integer status;
