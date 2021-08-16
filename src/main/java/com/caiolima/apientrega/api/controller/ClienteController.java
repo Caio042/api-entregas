@@ -10,6 +10,8 @@ import java.util.List;
 import com.caiolima.apientrega.domain.model.Cliente;
 import com.caiolima.apientrega.domain.repository.ClienteRepository;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping ("/clientes")
 public class ClienteController {
@@ -31,12 +33,12 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus (HttpStatus.CREATED) // especificar qual o status retornar para a requisição
-    public Cliente cadastrar(@RequestBody Cliente cliente){
+    public Cliente cadastrar(@Valid @RequestBody Cliente cliente){
         return repository.save(cliente);
     }
 
     @PutMapping ("/{id}")
-    public ResponseEntity<Cliente> atualizar (@PathVariable Long id, @RequestBody Cliente cliente){
+    public ResponseEntity<Cliente> atualizar (@Valid @PathVariable Long id, @RequestBody Cliente cliente){
         if (repository.existsById(id)){
             cliente.setId(id);
             return ResponseEntity.ok(repository.save(cliente));
