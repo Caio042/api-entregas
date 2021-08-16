@@ -1,0 +1,8 @@
+create table tb_cliente(
+    id bigint not null auto_increment,
+    nome varchar(50) not null,
+    email varchar(255) not null,
+    telefone varchar(14) not null,
+
+    primary key (id)
+);
