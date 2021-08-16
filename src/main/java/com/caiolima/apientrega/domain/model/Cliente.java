@@ -16,7 +16,7 @@ public class Cliente {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private long id;
+    private Long id;
 
     @Column
     private String nome;
