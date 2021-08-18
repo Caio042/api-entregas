@@ -1,0 +1,1 @@
+ALTER TABLE tb_entrega MODIFY destinatario_complemento varchar (60);

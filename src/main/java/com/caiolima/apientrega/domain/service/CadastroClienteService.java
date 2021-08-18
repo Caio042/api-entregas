@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class CadastroClienteService {
@@ -30,5 +32,10 @@ public class CadastroClienteService {
     @Transactional
     public void deletar(Long id){
         repository.deleteById(id);
+    }
+
+    public Cliente buscarPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NegocioException("Cliente não encontrado"));
     }
 }
