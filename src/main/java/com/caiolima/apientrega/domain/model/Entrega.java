@@ -8,10 +8,13 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table (name = "tb_entrega")
@@ -30,6 +33,8 @@ public class Entrega {
     @ManyToOne
     private Cliente cliente;
 
+    @NotNull
+    @Min(0)
     private BigDecimal taxa;
 
     @JsonProperty (access = JsonProperty.Access.READ_ONLY)
@@ -37,10 +42,11 @@ public class Entrega {
     private StatusEntrega status;
 
     @Embedded //estará em outra classe, mas suas colunas ficarão na tabela de entrega
+    @Valid
     private Destinatario destinatario;
 
     @JsonProperty (access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime dataPedido;
+    private OffsetDateTime dataPedido;
 
     @JsonProperty (access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime dataFinalizacao;

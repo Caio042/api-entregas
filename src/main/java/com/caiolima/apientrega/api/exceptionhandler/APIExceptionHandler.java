@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler { //trat
                         messageSource.getMessage(objectError, LocaleContextHolder.getLocale()))) //para mensagens padões é objectError.getDefaultMessage()
                 .collect(Collectors.toList());
 
-        Erro erro = new Erro(status.value(), LocalDateTime.now(),"Um ou mais campos estão inválidos", camposIncorretos);
+        Erro erro = new Erro(status.value(), OffsetDateTime.now(),"Um ou mais campos estão inválidos", camposIncorretos);
 
         return handleExceptionInternal(exception, erro, headers, status, request);
     }
@@ -47,7 +48,7 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler { //trat
 
         Erro erro = new Erro();
         erro.setStatus(status.value());
-        erro.setDataHora(LocalDateTime.now());
+        erro.setDataHora(OffsetDateTime.now());
         erro.setTitulo(exception.getMessage());
 
         return handleExceptionInternal(exception, erro, new HttpHeaders(), status, request);
